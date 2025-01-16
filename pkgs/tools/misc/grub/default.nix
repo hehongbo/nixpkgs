@@ -11,6 +11,7 @@
 , efiSupport ? false
 , zfsSupport ? false
 , xenSupport ? false
+, xenPvhSupport ? false
 , kbdcompSupport ? false, ckbcomp
 }:
 
@@ -40,6 +41,12 @@ let
     riscv64-linux.target = "riscv64";
   };
 
+  xenPvhSystemsBuild = {
+    i686-linux.target = "i386";
+    x86_64-linux.target = "i386"; # Xen PVH is only i386 on x86.
+    aarch64-linux.target = "arm64";
+  };
+
   canEfi = lib.any (system: stdenv.hostPlatform.system == system) (lib.mapAttrsToList (name: _: name) efiSystemsBuild);
   inPCSystems = lib.any (system: stdenv.hostPlatform.system == system) (lib.mapAttrsToList (name: _: name) pcSystems);
 
@@ -67,7 +74,8 @@ in (
 
 assert efiSupport -> canEfi;
 assert zfsSupport -> zfs != null;
-assert !(efiSupport && xenSupport);
+assert !(efiSupport && (xenSupport || xenPvhSupport));
+assert !(xenSupport && xenPvhSupport);
 
 stdenv.mkDerivation rec {
   pname = "grub";
@@ -559,7 +567,8 @@ stdenv.mkDerivation rec {
     "TARGET_STRIP=${stdenv.cc.targetPrefix}strip"
   ] ++ lib.optional zfsSupport "--enable-libzfs"
     ++ lib.optionals efiSupport [ "--with-platform=efi" "--target=${efiSystemsBuild.${stdenv.hostPlatform.system}.target}" "--program-prefix=" ]
-    ++ lib.optionals xenSupport [ "--with-platform=xen" "--target=${efiSystemsBuild.${stdenv.hostPlatform.system}.target}"];
+    ++ lib.optionals xenSupport [ "--with-platform=xen" "--target=${efiSystemsBuild.${stdenv.hostPlatform.system}.target}"]
+    ++ lib.optionals xenPvhSupport [ "--with-platform=xen_pvh" "--target=${xenPvhSystemsBuild.${stdenv.hostPlatform.system}.target}"];
 
   # save target that grub is compiled for
   grubTarget = if efiSupport
