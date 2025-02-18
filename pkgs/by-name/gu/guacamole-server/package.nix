@@ -86,8 +86,12 @@ stdenv.mkDerivation (finalAttrs: {
     patchShebangs ./src/protocols/rdp/**/*.pl
   '';
 
+  preInstall = ''
+    mkdir -p $out/lib
+    cp -r ${freerdp}/lib/* $out/lib/
+  '';
+
   postInstall = ''
-    ln -s ${freerdp}/lib/* $out/lib/
     wrapProgram $out/sbin/guacd --prefix LD_LIBRARY_PATH ":" $out/lib
   '';
 
