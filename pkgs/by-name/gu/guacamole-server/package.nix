@@ -79,7 +79,7 @@ stdenv.mkDerivation (finalAttrs: {
   ];
 
   configureFlags = [
-    "--with-freerdp-plugin-dir=${placeholder "out"}/lib"
+    "--with-freerdp-plugin-dir=${placeholder "out"}/lib/freerdp2"
   ];
 
   postPatch = ''
