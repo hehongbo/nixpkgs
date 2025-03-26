@@ -116,7 +116,7 @@ let
     which
   ];
 
-  genericPatches = [ ./0001-dm-relative-path-checking.patch ];
+  genericPatches = [ ./v2-0001-dm-relative-path-checking.patch ];
 in
 
 stdenv.mkDerivation (finalAttrs: {
