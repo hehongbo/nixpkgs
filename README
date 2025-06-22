@@ -1,0 +1,29 @@
+README
+======
+
+Hi! I'm Hongbo, one of the co-maintainers of the Xen Project Hypervisor at
+NixOS.
+
+This branch is what I used to deploy my own production hypervisors. It contains
+a bunch of commits cherry-picked from PR branches that are waiting to be merged.
+
+└─ base (currently `nixpkgs:nixos-unstable`)
+   ├─ PR #373294 xen: 4.19.1 -> 4.20.0
+   │  ├─ Commit 39ae21f
+   │  └─ Commit 3da13e2
+   ├─ PR #374753 grub: build PVH variant of Grub2 for Xen
+   │  ├─ Commit 04db5dc
+   │  └─ Commit 114e81d
+   └─ PR #365890 xen: patch `libxl` to search for `qemu-system-i386` properly
+      └─ Commit a752b4b
+
+LICENSE
+=======
+
+Nixpkgs is licensed under the MIT License.
+
+Note: MIT license does not apply to the packages built by Nixpkgs, merely to the
+files in this repository (the Nix expressions, build scripts, NixOS modules,
+etc.). It also might not apply to patches included in Nixpkgs, which may be
+derivative works of the packages to which they apply. The aforementioned
+artifacts are all covered by the licenses of the respective packages.
