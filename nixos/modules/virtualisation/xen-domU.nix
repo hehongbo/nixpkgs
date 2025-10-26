@@ -43,19 +43,19 @@ in
       kernelModules = [
         "9pnet_xen"
         "xen_wdt"
-        "drm_xen_front"
-        "snd_xen_front"
       ];
-      initrd.kernelModules = [
+      initrd.availableKernelModules = [
         "xen_blkfront"
+        "xen_scsifront"
+        "xen_netfront"
+        "xen_pcifront"
         "xen_tpmfront"
         "xen_kbdfront"
         "xen_fbfront"
-        "xen_netfront"
-        "xen_pcifront"
-        "xen_scsifront"
         "xen_hcd"
         "xenfs"
+        "drm_xen_front"
+        "snd_xen_front"
       ];
     };
   };
